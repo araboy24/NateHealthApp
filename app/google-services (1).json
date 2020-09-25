@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "155362933123",
+    "firebase_url": "https://natehealthapp.firebaseio.com",
+    "project_id": "natehealthapp",
+    "storage_bucket": "natehealthapp.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:155362933123:android:2e3800fa1e2b7980bfdeb6",
+        "android_client_info": {
+          "package_name": "com.araboy.natehealthapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "155362933123-1d5kf6851voqvjd1qck7045ph8n87obk.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCu8QyzuGT5Zdslzl0zIzvyQOQtPx5r6vI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "155362933123-1d5kf6851voqvjd1qck7045ph8n87obk.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
