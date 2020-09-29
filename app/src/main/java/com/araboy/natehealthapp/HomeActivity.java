@@ -8,6 +8,7 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
@@ -43,6 +44,10 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
 
+        if(loggedOut){
+            finish();
+        }
+
        // btnLogout = findViewById(R.id.btnLogout);
 
       //  txtEmail = (TextView)findViewById(R.id.txtEmailNav);
@@ -69,13 +74,14 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
                     @Override
                     public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
                         assert value != null;
-
-                        if (value.getString("Email") != null) {
-                            txtEmail.setText(value.getString("Email"));
-                         //   txtEmail.setText("email");
-                        }
-                        if (value.getString("Full Name") != null) {
-                            txtName.setText(value.getString("Full Name"));
+                        if(value != null) {
+                            if (value.getString("Email") != null) {
+                                txtEmail.setText(value.getString("Email"));
+                                //   txtEmail.setText("email");
+                            }
+                            if (value.getString("Full Name") != null) {
+                                txtName.setText(value.getString("Full Name"));
+                            }
                         }
                     }
                 });
