@@ -12,6 +12,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -85,9 +86,32 @@ public class HomeFragment extends Fragment {
             btnAddFood.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view2) {
-                    //is definitely wrong , test and check
-             //      new HomeActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
-               //               new AddFoodFragment()).commit();
+                    AddFoodFragment addFoodFragment = new AddFoodFragment();
+                    FragmentManager manager = getFragmentManager();
+                    manager.beginTransaction().replace(R.id.fragment_container, addFoodFragment, addFoodFragment.getTag()).commit();
+                }
+            });
+
+            btnLogout.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    ((HomeActivity)getActivity()).logout(view);
+                }
+            });
+
+            btnRedo.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    startActivity(new Intent(getActivity(), SurveyActivity.class));
+                }
+            });
+
+            btnTodaysInfo.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    TodaysInfoFragment todaysInfoFragment = new TodaysInfoFragment();
+                    FragmentManager manager = getFragmentManager();
+                    manager.beginTransaction().replace(R.id.fragment_container, todaysInfoFragment, todaysInfoFragment.getTag()).commit();
                 }
             });
         }

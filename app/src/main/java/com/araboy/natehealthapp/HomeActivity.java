@@ -34,6 +34,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
     TextView txtEmail, txtName;
     ImageView profilePic;
     Button btnLogout;
+    boolean loggedOut = false;
 
     private DrawerLayout drawer;
 
@@ -63,7 +64,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
 
             userId = user.getUid();
             DocumentReference dName = fStore.collection("Users").document(userId);
-            if(dName != null) {
+            if(dName != null && !loggedOut) {
                 dName.addSnapshotListener(new EventListener<DocumentSnapshot>() {
                     @Override
                     public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
@@ -94,13 +95,15 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         toggle.syncState();
 
 
-/*
+
+
+
         if(savedInstanceState == null) {
             getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
-                    new ProfileFragment()).commit();
+                    new HomeFragment()).commit();
             navigationView.setCheckedItem(R.id.nav_profile);
         }
- */
+
 /*
         btnLogout.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -124,6 +127,13 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         }
     }
 
+    public  void logout(View view){
+        loggedOut = true;
+        FirebaseAuth.getInstance().signOut();//Logout
+        startActivity(new Intent(getApplicationContext(),MainActivity2.class));
+        finish();
+
+    }
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         switch(item.getItemId()) {
