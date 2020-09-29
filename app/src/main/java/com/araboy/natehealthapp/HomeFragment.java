@@ -33,12 +33,6 @@ import java.util.Objects;
 
 public class HomeFragment extends Fragment {
 
-    @Nullable
-    @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_home, container, false);
-    }
-/*
     Button btnRedo, btnLogout, btnAddFood, btnTodaysInfo;
     TextView txtWelcome, txtTotalCals;
 
@@ -52,7 +46,71 @@ public class HomeFragment extends Fragment {
     boolean loggedOut = false;
 
     DocumentReference documentReference;
+    @Nullable
+    @Override
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.fragment_home, container, false);
+        instantiate(view);
+        if (user != null && userId != null) {
+            fStore.collection(userId).document("Daily Food").collection(dateS)
+                    .get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                @Override
+                public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                    if (task.isSuccessful()) {
 
+                        List<DocumentSnapshot> foods = Objects.requireNonNull(task.getResult()).getDocuments();
+                        double sum = 0;
+                        for (DocumentSnapshot ds : foods) {
+                            sum += (double) ds.get("Calories");
+                        }
+                        txtTotalCals.setText(sum + "");
+                    } else {
+
+                    }
+                }
+            });
+
+            if (user != null && userId != null && loggedOut == false) {
+                DocumentReference dName = fStore.collection("Users").document(userId);
+                dName.addSnapshotListener(new EventListener<DocumentSnapshot>() {
+                    @Override
+                    public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
+                        assert value != null;
+                        if (value != null) {
+                            txtWelcome.setText("Hey, " + value.getString("Full Name") + "!");
+                        }
+                    }
+                });
+            }
+            btnAddFood.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view2) {
+                    //is definitely wrong , test and check
+             //      new HomeActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
+               //               new AddFoodFragment()).commit();
+                }
+            });
+        }
+        return view; //Last line
+    }
+
+    public void instantiate(View view){
+        btnLogout = view.findViewById(R.id.btnLogout);
+        txtWelcome = view.findViewById(R.id.txtWelcome);
+        txtTotalCals = view.findViewById(R.id.txtTotalCaloriesValue);
+        btnRedo = view.findViewById(R.id.btnRedo);
+        btnAddFood = view.findViewById(R.id.btnAddFood);
+        btnTodaysInfo = view.findViewById(R.id.btnTodaysInfo);
+        fAuth = FirebaseAuth.getInstance();
+        fStore = FirebaseFirestore.getInstance();
+        user = fAuth.getCurrentUser();
+        if(user!= null) {
+            userId = user.getUid();
+        }
+        dateS = getDate(new Date());
+    }
+
+/*
 
     @Nullable
     @Override
@@ -146,21 +204,7 @@ public class HomeFragment extends Fragment {
 
     }
 
-    public void instantiate(View view){
-        btnLogout = view.findViewById(R.id.btnLogout);
-        txtWelcome = view.findViewById(R.id.txtWelcome);
-        txtTotalCals = view.findViewById(R.id.txtTotalCaloriesValue);
-        btnRedo = view.findViewById(R.id.btnRedo);
-        btnAddFood = view.findViewById(R.id.btnAddFood);
-        btnTodaysInfo = view.findViewById(R.id.btnTodaysInfo);
-        fAuth = FirebaseAuth.getInstance();
-        fStore = FirebaseFirestore.getInstance();
-        user = fAuth.getCurrentUser();
-        if(user!= null) {
-            userId = user.getUid();
-        }
-        dateS = getDate(new Date());
-    }
+
 /*
     public int getTotalCalories(){
         int sum = 0;
@@ -182,7 +226,7 @@ public class HomeFragment extends Fragment {
     }
 
  */
-/*
+
     public static String getDate(Date date) {
         String month, day, year, dateWTime;
         dateWTime = date.toString();
@@ -235,5 +279,7 @@ public class HomeFragment extends Fragment {
         return month+"-"+day+"-"+year;
 
     }
-    */
+
 }
+
+

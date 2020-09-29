@@ -9,8 +9,15 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".DeleteLaterActivity"
-            android:theme="@style/Theme.AppCompat.NoActionBar"/>
+        <activity android:name=".MainActivity2"></activity>
+        <activity android:name=".Survey5WeeklyGoalActivity" />
+        <activity android:name=".Survey4BodyInfoActivity" />
+        <activity android:name=".Survey3UserInfoActivity" />
+        <activity android:name=".Survey2ActiveActivity" />
+        <activity android:name=".SurveyActivity" />
+        <activity
+            android:name=".DeleteLaterActivity"
+            android:theme="@style/Theme.AppCompat.NoActionBar" />
         <activity
             android:name=".HomeActivity"
             android:theme="@style/Theme.AppCompat.NoActionBar" />

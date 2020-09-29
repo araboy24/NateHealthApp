@@ -1,13 +1,66 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent" android:layout_height="match_parent"
     android:background="@color/colorAccent">
 
-    <TextView
+    <ImageView
+        android:id="@+id/imgProfilePic"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Profile Fragment"
-        android:textSize="30sp"
-        android:layout_centerInParent="true"/>
+        android:layout_marginTop="96dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.495"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:src="@mipmap/ic_launcher_round" />
 
-</RelativeLayout>
+    <TextView
+        android:id="@+id/txtFullName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="Name"
+        app:layout_constraintEnd_toEndOf="@+id/imgProfilePic"
+        app:layout_constraintStart_toStartOf="@+id/imgProfilePic"
+        app:layout_constraintTop_toBottomOf="@+id/imgProfilePic" />
+
+    <TextView
+        android:id="@+id/txtCurrentWeight"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="Current Weight"
+        app:layout_constraintEnd_toEndOf="@+id/txtFullName"
+        app:layout_constraintStart_toStartOf="@+id/txtFullName"
+        app:layout_constraintTop_toBottomOf="@+id/txtFullName" />
+
+    <TextView
+        android:id="@+id/txtGoalWeight"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="Goal Weight"
+        app:layout_constraintEnd_toEndOf="@+id/txtCurrentWeight"
+        app:layout_constraintStart_toStartOf="@+id/txtCurrentWeight"
+        app:layout_constraintTop_toBottomOf="@+id/txtCurrentWeight" />
+
+    <Button
+        android:id="@+id/btnCalendar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="View Calendar"
+        app:layout_constraintEnd_toEndOf="@+id/txtGoalWeight"
+        app:layout_constraintStart_toStartOf="@+id/txtGoalWeight"
+        app:layout_constraintTop_toBottomOf="@+id/txtGoalWeight" />
+
+    <Button
+        android:id="@+id/btnResetPass"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Reset Password"
+        app:layout_constraintEnd_toEndOf="@+id/btnCalendar"
+        app:layout_constraintStart_toStartOf="@+id/btnCalendar"
+        app:layout_constraintTop_toBottomOf="@+id/btnCalendar" />
+</androidx.constraintlayout.widget.ConstraintLayout>

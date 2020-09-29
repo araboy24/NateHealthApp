@@ -130,7 +130,7 @@ public class RegisterActivity2 extends AppCompatActivity {
                             user.put("isComplete", false);
                             db.set(com, SetOptions.merge());
 
-                            startActivity(new Intent(getApplicationContext(), HomeActivity.class));
+                            startActivity(new Intent(getApplicationContext(), SurveyActivity.class));
                         } else {
                             Toast.makeText(RegisterActivity2.this, "Error: " + task.getException().getMessage(), Toast.LENGTH_LONG).show();
                             progressBar.setVisibility(View.GONE);

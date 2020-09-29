@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@mipmap/dark_green_wallpaper"
+    tools:context=".Survey4BodyInfoActivity">
+
+    <TextView
+        android:id="@+id/txtHeight"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:fontFamily="@font/amethysta"
+        android:text="How Tall Are You?"
+        android:textColor="@color/darkerGreen"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/txtWeight"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:fontFamily="@font/amethysta"
+        android:text="What's Your Weight?"
+        android:textColor="@color/darkerGreen"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="@+id/edtHeight"
+        app:layout_constraintStart_toStartOf="@+id/edtHeight"
+        app:layout_constraintTop_toBottomOf="@+id/edtHeight" />
+
+    <TextView
+        android:id="@+id/txtGoalWeight"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:fontFamily="@font/amethysta"
+        android:text="What's Your Goal Weight?"
+        android:textColor="@color/darkerGreen"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="@+id/edtWeight"
+        app:layout_constraintStart_toStartOf="@+id/edtWeight"
+        app:layout_constraintTop_toBottomOf="@+id/edtWeight" />
+
+    <EditText
+        android:id="@+id/edtHeight"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:ems="10"
+        android:hint="X'YY"
+        android:inputType="textPersonName"
+        app:layout_constraintEnd_toEndOf="@+id/txtHeight"
+        app:layout_constraintStart_toStartOf="@+id/txtHeight"
+        app:layout_constraintTop_toBottomOf="@+id/txtHeight" />
+
+    <EditText
+        android:id="@+id/edtWeight"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:ems="10"
+        android:hint="lbs"
+        android:inputType="textPersonName"
+        app:layout_constraintEnd_toEndOf="@+id/txtWeight"
+        app:layout_constraintStart_toStartOf="@+id/txtWeight"
+        app:layout_constraintTop_toBottomOf="@+id/txtWeight" />
+
+    <EditText
+        android:id="@+id/edtGoalWeight"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:ems="10"
+        android:hint="lbs"
+        android:inputType="textPersonName"
+        app:layout_constraintEnd_toEndOf="@+id/txtGoalWeight"
+        app:layout_constraintStart_toStartOf="@+id/txtGoalWeight"
+        app:layout_constraintTop_toBottomOf="@+id/txtGoalWeight" />
+
+    <Button
+        android:id="@+id/btnNext4"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginEnd="24dp"
+        android:layout_marginBottom="60dp"
+        android:background="@color/darkGreen"
+        android:text="Next"
+        android:textColor="#FFFFFF"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent" />
+</androidx.constraintlayout.widget.ConstraintLayout>

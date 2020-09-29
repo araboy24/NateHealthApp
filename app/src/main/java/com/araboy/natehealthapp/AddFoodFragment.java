@@ -79,11 +79,11 @@ public class AddFoodFragment extends Fragment {
         btnClear.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                edtCalories.clearComposingText();
-                edtCarbs.clearComposingText();
-                edtFat.clearComposingText();
-                edtName.clearComposingText();
-                edtProtein.clearComposingText();
+                edtCalories.setText("");
+                edtCarbs.setText("");
+                edtFat.setText("");
+                edtName.setText("");
+                edtProtein.setText("");
             }
         });
 

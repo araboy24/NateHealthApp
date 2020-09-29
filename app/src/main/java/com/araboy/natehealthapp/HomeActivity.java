@@ -12,6 +12,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -24,15 +25,15 @@ import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
 
-public class HomeActivity<Textview> extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
+public class HomeActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
     FirebaseFirestore fStore;
     FirebaseAuth fAuth;
     FirebaseUser user;
     String userId;
-    String name, email;
     TextView txtEmail, txtName;
     ImageView profilePic;
+    Button btnLogout;
 
     private DrawerLayout drawer;
 
@@ -40,6 +41,8 @@ public class HomeActivity<Textview> extends AppCompatActivity implements Navigat
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
+
+       // btnLogout = findViewById(R.id.btnLogout);
 
       //  txtEmail = (TextView)findViewById(R.id.txtEmailNav);
         //txtName = (TextView)findViewById(R.id.txtNameNav);
@@ -65,6 +68,7 @@ public class HomeActivity<Textview> extends AppCompatActivity implements Navigat
                     @Override
                     public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
                         assert value != null;
+
                         if (value.getString("Email") != null) {
                             txtEmail.setText(value.getString("Email"));
                          //   txtEmail.setText("email");
@@ -97,6 +101,18 @@ public class HomeActivity<Textview> extends AppCompatActivity implements Navigat
             navigationView.setCheckedItem(R.id.nav_profile);
         }
  */
+/*
+        btnLogout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                FirebaseAuth.getInstance().signOut();//Logout
+                startActivity(new Intent(getApplicationContext(),MainActivity2.class));
+                finish();
+                return;
+            }
+        });
+        */
+
     }
 
     @Override
@@ -127,6 +143,7 @@ public class HomeActivity<Textview> extends AppCompatActivity implements Navigat
                  getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
                       new GoalsFragment()).commit();
                 //TODO startActivity(new Intent(getApplicationContext(), AddFoodActivity.class));
+
                 break;
             case R.id.nav_home:
                 getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
