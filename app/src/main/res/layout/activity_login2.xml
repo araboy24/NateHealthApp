@@ -97,7 +97,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
         android:text="New Here? Create Account"
-        android:textColor="#FFFFFF"
+        android:textColor="@color/darkerGreen"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/btnLogin" />
@@ -122,7 +122,7 @@
         android:layout_marginTop="32dp"
         android:layout_marginBottom="49dp"
         android:text="Forgot Password"
-        android:textColor="#FFFFFF"
+        android:textColor="@color/darkerGreen"
         app:layout_constraintBottom_toTopOf="@+id/progressBar"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
