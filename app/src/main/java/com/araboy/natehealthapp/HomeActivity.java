@@ -48,14 +48,6 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
             finish();
         }
 
-       // btnLogout = findViewById(R.id.btnLogout);
-
-      //  txtEmail = (TextView)findViewById(R.id.txtEmailNav);
-        //txtName = (TextView)findViewById(R.id.txtNameNav);
-
-     //   txtEmail = NavHeader.getTxtEmailNav();
-       // txtName = NavHeader.getTxtNameNav();
-
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         View headerView = navigationView.getHeaderView(0);
         txtEmail = (TextView) headerView.findViewById(R.id.txtEmailNav);
@@ -107,7 +99,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         if(savedInstanceState == null) {
             getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
                     new HomeFragment()).commit();
-            navigationView.setCheckedItem(R.id.nav_profile);
+            navigationView.setCheckedItem(R.id.nav_home);
         }
 
 /*
