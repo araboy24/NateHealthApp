@@ -38,7 +38,7 @@ public class MainActivity extends AppCompatActivity {
         btnReg = findViewById(R.id.btnRegister);
         fAuth = FirebaseAuth.getInstance();
         fStore = FirebaseFirestore.getInstance();
-
+/*
         try {
             if (fAuth.getCurrentUser() != null) {
                 //Log.d(TAG, "")
@@ -71,7 +71,7 @@ public class MainActivity extends AppCompatActivity {
         } catch(Exception e){
             Toast.makeText(MainActivity.this, e.toString(), Toast.LENGTH_LONG).show();
         }
-
+*/
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

@@ -1,7 +1,9 @@
 package com.araboy.natehealthapp;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -9,6 +11,15 @@ import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
+import android.widget.Toast;
+
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.EventListener;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
 
 public class SplashActivity extends AppCompatActivity {
     //How long splash screen stays
@@ -18,6 +29,15 @@ public class SplashActivity extends AppCompatActivity {
 
     //Animations
     Animation topAnimation, bottomAnimation, middleAnimation;
+
+
+    //Background Check
+    FirebaseFirestore fStore;
+    FirebaseAuth fAuth;
+    FirebaseUser user = null;
+    String userId;
+    boolean surveyComplete, loggedIn;
+    Activity nextActivity;
 
 
     @Override
@@ -37,16 +57,66 @@ public class SplashActivity extends AppCompatActivity {
         imgName.setAnimation(bottomAnimation);
         imgLogo.setAnimation(topAnimation);
 
-        //Splash Screen
+        //Background Check: Logged in or not
+        fAuth = FirebaseAuth.getInstance();
+        fStore = FirebaseFirestore.getInstance();
+        try {
+            if (fAuth.getCurrentUser() != null) {
+                loggedIn = true;
+                user = fAuth.getCurrentUser();
+                userId = user.getUid();
+                DocumentReference db = fStore.collection(userId).document("Survey");
+                if (db != null){
+                    db.addSnapshotListener(new EventListener<DocumentSnapshot>() {
+                        @Override
+                        public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
+                            if (value != null){
+                                if (value.getBoolean("isComplete") != null) {
+                                    surveyComplete = value.getBoolean("isComplete");
+                                    if (value.getBoolean("isComplete")) {
+                                      //  nextActivity = new HomeActivity();
+                                        //startActivity(new Intent(getApplicationContext(), HomeActivity.class));
+                                      //  finish();
+                                    }
+                                } else {
 
+                                   // nextActivity = new SurveyActivity();
+                               //USE startActivity(new Intent(getApplicationContext(), SurveyActivity.class));
+                               //     startActivity(new Intent(getApplicationContext(), HomeActivity.class));
+                                   // finish();
+                                }
+                            }
+
+                        }
+                    });
+                }
+            }
+        } catch(Exception e){
+           // Toast.makeText(MainActivity.this, e.toString(), Toast.LENGTH_LONG).show();
+        }
+
+        //Splash Screen
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                Intent intent = new Intent(SplashActivity.this, MainActivity.class);
-                startActivity(intent);
+                Intent homeAct = new Intent(SplashActivity.this, HomeActivity.class);
+                Intent surveyAct = new Intent(SplashActivity.this, SurveyActivity.class);
+                Intent mainAct = new Intent(SplashActivity.this, MainActivity.class);
+                if(loggedIn){
+                    if(surveyComplete){
+                        startActivity(homeAct);
+                    } else {
+                        startActivity(surveyAct);
+                    }
+                } else {
+                    startActivity(mainAct);
+                }
                 finish();
             }
         }, SPLASH_TIME_OUT);
+
+
+
 
 
     }
