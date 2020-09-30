@@ -1,10 +1,17 @@
 package com.araboy.natehealthapp;
 
+import android.app.Activity;
+import android.app.ProgressDialog;
+import android.content.ContentResolver;
 import android.content.DialogInterface;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.MimeTypeMap;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -16,8 +23,11 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 
+import com.google.android.gms.tasks.Continuation;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
@@ -25,6 +35,10 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.StorageTask;
+import com.google.firebase.storage.UploadTask;
 
 import java.util.Date;
 
@@ -39,12 +53,18 @@ public class ProfileFragment extends Fragment {
     FirebaseUser user;
     String userId, dateS;
 
+    StorageReference storageReference;
+    private static final int PICK_IMAGE = 1;
+    private Uri imageUri;
+    private StorageTask uploadTask;
+
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_profile, container, false);
         instantiate(view);
+        storageReference = FirebaseStorage.getInstance().getReference("uploads");
 
         if (user != null) {
             userId = user.getUid();
@@ -54,8 +74,10 @@ public class ProfileFragment extends Fragment {
                     @Override
                     public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
                         assert value != null;
-                        if (value.getString("Full Name") != null) {
-                            txtName.setText("Name: " + value.getString("Full Name"));
+                        if(value != null) {
+                            if (value.getString("Full Name") != null) {
+                                txtName.setText("Name: " + value.getString("Full Name"));
+                            }
                         }
                     }
                 });
@@ -129,10 +151,34 @@ public class ProfileFragment extends Fragment {
             }
         });
 
+        //Change profile pic
+        imgProfilePic.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                /*
+                Intent  gallery = new Intent();
+                gallery.setType("image/*");
+                gallery.setAction(Intent.ACTION_GET_CONTENT);
+                startActivityForResult(Intent.createChooser(gallery, "Select Picture"), PICK_IMAGE);
+                 */
+            }
+        });
+
 
         return view;
     }
 
+
+    /*
+        @Override
+        public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+            super.onActivityResult(requestCode, resultCode, data);
+
+            if(requestCode == PICK_IMAGE && resultCode == RESULT_OK){
+
+            }
+        }
+    */
     public void instantiate(View view) {
         btnCalendar = view.findViewById(R.id.btnCalendar);
         btnChange = view.findViewById(R.id.btnResetPass);
@@ -149,8 +195,6 @@ public class ProfileFragment extends Fragment {
         dateS = getDate(new Date());
 
     }
-
-
 
     public static String getDate(Date date) {
         String month, day, year, dateWTime;
