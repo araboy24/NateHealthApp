@@ -20,6 +20,8 @@
         android:fromYScale="0.1"
         android:toYScale="1"
         android:duration = "2000"
+        android:pivotX="200"
         />
+
 
 </set>
