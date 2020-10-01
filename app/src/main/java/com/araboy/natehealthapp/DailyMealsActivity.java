@@ -5,7 +5,10 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -24,6 +27,7 @@ public class DailyMealsActivity extends AppCompatActivity {
 
     RecyclerView recyclerView;
     TextView txtDate;
+    Button btnAddFood;
 
     FirebaseAuth fAuth;
     FirebaseFirestore fStore;
@@ -31,6 +35,9 @@ public class DailyMealsActivity extends AppCompatActivity {
     String userId;
     String dateS;
     int count;
+
+    String dateFromCal;
+
     public ArrayList<Meal> meals = new ArrayList<Meal>();
 
 
@@ -40,6 +47,10 @@ public class DailyMealsActivity extends AppCompatActivity {
         setContentView(R.layout.activity_daily_meals);
 
         instantiate();
+
+        Intent intent = getIntent();
+        dateFromCal = intent.getStringExtra("Date");
+        txtDate.setText(dateFromCal);
 
         if(user != null){
 
@@ -52,16 +63,10 @@ public class DailyMealsActivity extends AppCompatActivity {
                         count = foods.size();
                         ArrayList<Meal> mealsTemp = new ArrayList<Meal>();
                         for (DocumentSnapshot ds : foods) {
-                            mealsTemp.add(new Meal(ds.getString("Name"), (double) ds.get("Calories"),
-                                    (double) ds.get("Carbs"), (double) ds.get("Protein"), (double) ds.get("Fat")));
-                          //  txtDate.setText(""+mealsTemp.size());
-
                             meals.add(new Meal(ds.getString("Name"), (double) ds.get("Calories"),
                                     (double) ds.get("Carbs"), (double) ds.get("Protein"), (double) ds.get("Fat")));
-                         //   txtDate.setText(""+meals.size());
                         }
-                        int x = mealsTemp.size();
-                        int y = meals.size();
+
 
                         recyclerView = findViewById(R.id.recyclerView);
 
@@ -77,7 +82,14 @@ public class DailyMealsActivity extends AppCompatActivity {
             });
         }
 
-
+        btnAddFood.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent (getApplicationContext(), HomeActivity.class);
+                intent.putExtra("EXTRA", "addFood");
+                startActivity(intent);
+            }
+        });
 
 
 
@@ -85,6 +97,7 @@ public class DailyMealsActivity extends AppCompatActivity {
     }
     public void instantiate(){
         txtDate = findViewById(R.id.txtDateMeal);
+        btnAddFood = findViewById(R.id.btnAdd);
 
         fAuth = FirebaseAuth.getInstance();
         fStore = FirebaseFirestore.getInstance();
@@ -94,7 +107,8 @@ public class DailyMealsActivity extends AppCompatActivity {
         }
 
         dateS = getDate(new Date());
-        txtDate.setText(getDate(new Date()));
+
+       // txtDate.setText(dateS);
 
     }
 
