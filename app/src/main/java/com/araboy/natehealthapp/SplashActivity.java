@@ -106,7 +106,9 @@ public class SplashActivity extends AppCompatActivity {
                     if(surveyComplete){
                         startActivity(homeAct);
                     } else {
-                        startActivity(surveyAct);
+                       //TODO FIX THE CHECK ON WHETHER SURVEY IS COMPLETE OR NOT
+                        // startActivity(surveyAct);
+                        startActivity(homeAct);
                     }
                 } else {
                     startActivity(mainAct);
