@@ -186,12 +186,8 @@ public class TodaysInfoFragment extends Fragment {
                 month = "else";
                 break;
         }
-
         day = dateWTime.substring(8, 10);
-
         year = dateWTime.substring(dateWTime.length()-4, dateWTime.length());
-
         return month+"-"+day+"-"+year;
-
     }
 }
