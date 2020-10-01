@@ -13,18 +13,28 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
 
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+
 public class MealAdapter extends RecyclerView.Adapter<MealAdapter.MealHolder> {
-    int cals, carbs, protein, fat;
+    double cals, carbs, protein, fat;
+    int count;
     String name;
     Context context;
+    ArrayList<Meal> meals;
 
-    public MealAdapter(Context ct, String name, int cals, int carbs, int protein, int fat){
+    public MealAdapter(Context ct, String name, double cals, double carbs, double protein, double fat){
         this.cals = cals;
         this.carbs = carbs;
         this.protein = protein;
         this.fat = fat;
         this.name = name;
         context = ct;
+    }
+
+    public MealAdapter(Context ct, ArrayList<Meal> mealss){
+        context = ct;
+        this.meals = mealss;
     }
 
     public MealAdapter(){}
@@ -39,20 +49,36 @@ public class MealAdapter extends RecyclerView.Adapter<MealAdapter.MealHolder> {
 
     @Override
     public void onBindViewHolder(@NonNull MealHolder holder, int position) {
+        /*
         holder.txtProtein.setText(protein+"g Protein");
         holder.txtFat.setText(fat+"g Fat");
         holder.txtCarb.setText(carbs+"g Carbs");
         holder.txtCal.setText(cals+" Calories");
         holder.txtName.setText(name);
+        */
+        holder.txtProtein.setText(meals.get(position).getProtein()+"g Protein");
+        holder.txtFat.setText(meals.get(position).getFat()+"g Fat");
+        holder.txtCarb.setText(meals.get(position).getCarbs()+"g Carbs");
+        holder.txtCal.setText(meals.get(position).getName()  + ": " + meals.get(position).getCalories()+" Calories");
+        holder.txtName.setText(meals.get(position).getName());
+
 
         //Add on click listener here if necessary
+        /*
+        holder.mainLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
 
+            }
+        });
+         */
 
     }
 
     @Override
     public int getItemCount() {
-        return 1;//TODO CHANGE LATER
+       // return 1;  TODO CHANGE LATER Maybe good now test
+        return  meals.size();
     }
 
     public class MealHolder extends RecyclerView.ViewHolder{
