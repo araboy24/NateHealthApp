@@ -7,6 +7,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -16,6 +18,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
@@ -96,6 +99,8 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
 
 
 
+
+
         if(savedInstanceState == null) {
             getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
                     new HomeFragment()).commit();
@@ -115,6 +120,45 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         */
 
     }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        //Opens Add Food fragment from the meals Rec View
+        Bundle extras = getIntent().getExtras();
+        if (extras != null) {
+            boolean isNew = extras.getBoolean("addFood", false);
+            Toast.makeText(this, "Extra != null && " + isNew, Toast.LENGTH_SHORT).show();
+            if (isNew) {
+                // Do something
+                 switch (getIntent().getStringExtra("EXTRA")) {
+                     case "addFood":
+                         getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new AddFoodFragment()).commit();
+                         navigationView.setCheckedItem(R.id.nav_add_food);
+                         break;
+                 }
+               // if(getIntent().getStringExtra("EXTRA").equals("addFood")) {
+                 //   getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new AddFoodFragment()).commit();
+                   // navigationView.setCheckedItem(R.id.nav_add_food);
+               // }
+                // getSupportActionBar().setTitle("Fragment Activity B");
+                //     break;
+                //}
+            } else {
+                // Do something else
+              //  if(getIntent().getStringExtra("EXTRA").equals("addFood")) {
+                //    getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new AddFoodFragment()).commit();
+                  //  navigationView.setCheckedItem(R.id.nav_add_food);
+                //TODO: Fix this MESS of a method
+                //The code below shouldn't be running, instead it should be getting run if(isNew) == true
+                //But it's always false
+                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new AddFoodFragment()).commit();
+                navigationView.setCheckedItem(R.id.nav_add_food);
+                }
+            }
+        }
+
 
     @Override
     public void onBackPressed() {
