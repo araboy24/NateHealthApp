@@ -22,6 +22,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 
 import com.google.android.gms.tasks.Continuation;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -46,6 +47,7 @@ public class ProfileFragment extends Fragment {
     ImageView imgProfilePic;
     Button btnChange;
     Button btnCalendar;
+    Button btnAllMeals;
     TextView txtGoal, txtCurrent, txtName;
 
     FirebaseFirestore fStore;
@@ -90,20 +92,22 @@ public class ProfileFragment extends Fragment {
                             @Override
                             public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
                                 assert value != null;
-                                if (value.get("Weight (kg)") != null) {
-                                    double w = (double) value.get("Weight (kg)");
-                                    double a = Math.round(w);
+                                if(value != null) {
+                                    if (value.get("Weight (kg)") != null) {
+                                        double w = (double) value.get("Weight (kg)");
+                                        double a = Math.round(w);
 
-                                    txtCurrent.setText("Current Weight: " + a + " kg");
-                                } else {
-                                    txtCurrent.setText("DIDn't work");
-                                }
-                                if (value.get("Goal Weight (kg)") != null) {
-                                    double w = (Double) value.get("Goal Weight (kg)");
-                                    double a = (double) Math.round(w);
-                                    txtGoal.setText("Goal Weight: " + a + " kg");
-                                } else {
-                                    txtGoal.setText("DIDn't work");
+                                        txtCurrent.setText("Current Weight: " + a + " kg");
+                                    } else {
+                                        txtCurrent.setText("DIDn't work");
+                                    }
+                                    if (value.get("Goal Weight (kg)") != null) {
+                                        double w = (Double) value.get("Goal Weight (kg)");
+                                        double a = (double) Math.round(w);
+                                        txtGoal.setText("Goal Weight: " + a + " kg");
+                                    } else {
+                                        txtGoal.setText("DIDn't work");
+                                    }
                                 }
                             }
                         });
@@ -164,10 +168,19 @@ public class ProfileFragment extends Fragment {
             }
         });
 
-        btnCalendar.setOnClickListener(new View.OnClickListener() {
+        btnAllMeals.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 startActivity(new Intent(getActivity(), DailyMealsActivity.class));
+            }
+        });
+
+        btnCalendar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                CalendarFragment calendarFragment = new CalendarFragment();
+                FragmentManager manager = getFragmentManager();
+                manager.beginTransaction().replace(R.id.fragment_container, calendarFragment, calendarFragment.getTag()).commit();
             }
         });
 
@@ -189,6 +202,7 @@ public class ProfileFragment extends Fragment {
     public void instantiate(View view) {
         btnCalendar = view.findViewById(R.id.btnCalendar);
         btnChange = view.findViewById(R.id.btnResetPass);
+        btnAllMeals = view.findViewById(R.id.btnAllFood);
         txtCurrent = view.findViewById(R.id.txtCurrentWeight);
         txtGoal = view.findViewById(R.id.txtGoalWeight);
         txtName = view.findViewById(R.id.txtFullName);

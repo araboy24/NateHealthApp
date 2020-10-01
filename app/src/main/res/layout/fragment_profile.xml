@@ -47,14 +47,14 @@
         app:layout_constraintTop_toBottomOf="@+id/txtCurrentWeight" />
 
     <Button
-        android:id="@+id/btnCalendar"
+        android:id="@+id/btnAllFood"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="24dp"
         android:layout_marginTop="16dp"
         android:layout_marginEnd="24dp"
         android:background="@color/darkGreen"
-        android:text="View Calendar"
+        android:text="All Food"
         android:textColor="#FFFFFF"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -68,7 +68,19 @@
         android:background="@color/darkGreen"
         android:text="Reset Password"
         android:textColor="#FFFFFF"
-        app:layout_constraintEnd_toEndOf="@+id/btnCalendar"
-        app:layout_constraintStart_toStartOf="@+id/btnCalendar"
-        app:layout_constraintTop_toBottomOf="@+id/btnCalendar" />
+        app:layout_constraintEnd_toEndOf="@+id/btnAllFood"
+        app:layout_constraintStart_toStartOf="@+id/btnAllFood"
+        app:layout_constraintTop_toBottomOf="@+id/btnAllFood" />
+
+    <Button
+        android:id="@+id/btnCalendar"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:background="@color/darkGreen"
+        android:text="Calendar"
+        android:textColor="#FFFFFF"
+        app:layout_constraintEnd_toEndOf="@+id/btnResetPass"
+        app:layout_constraintStart_toStartOf="@+id/btnResetPass"
+        app:layout_constraintTop_toBottomOf="@+id/btnResetPass" />
 </androidx.constraintlayout.widget.ConstraintLayout>
