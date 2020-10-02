@@ -33,10 +33,10 @@ public class DailyMealsActivity extends AppCompatActivity {
     FirebaseFirestore fStore;
     FirebaseUser user;
     String userId;
-    String dateS;
+    String dateS = getDate(new Date());
     int count;
 
-    String dateFromCal;
+    String dateFromCal = getDate(new Date());
 
     public ArrayList<Meal> meals = new ArrayList<Meal>();
 
@@ -54,14 +54,13 @@ public class DailyMealsActivity extends AppCompatActivity {
 
         if(user != null){
 
-            fStore.collection(userId).document("Daily Food").collection(dateS)
+            fStore.collection(userId).document("Daily Food").collection(dateFromCal)
                     .get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                 @Override
                 public void onComplete(@NonNull Task<QuerySnapshot> task) {
                     if (task.isSuccessful()) {
                         List<DocumentSnapshot> foods = task.getResult().getDocuments();
                         count = foods.size();
-                        ArrayList<Meal> mealsTemp = new ArrayList<Meal>();
                         for (DocumentSnapshot ds : foods) {
                             meals.add(new Meal(ds.getString("Name"), (double) ds.get("Calories"),
                                     (double) ds.get("Carbs"), (double) ds.get("Protein"), (double) ds.get("Fat")));

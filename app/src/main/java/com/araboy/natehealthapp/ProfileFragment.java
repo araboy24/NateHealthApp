@@ -93,20 +93,20 @@ public class ProfileFragment extends Fragment {
                             public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
                                 assert value != null;
                                 if(value != null) {
-                                    if (value.get("Weight (kg)") != null) {
-                                        double w = (double) value.get("Weight (kg)");
+                                    if (value.get("Weight (lbs)") != null) {
+                                        double w = (double) value.get("Weight (lbs)");
                                         double a = Math.round(w);
 
-                                        txtCurrent.setText("Current Weight: " + a + " kg");
+                                        txtCurrent.setText("Current Weight: " + a + " lbs");
                                     } else {
                                         txtCurrent.setText("DIDn't work");
                                     }
-                                    if (value.get("Goal Weight (kg)") != null) {
-                                        double w = (Double) value.get("Goal Weight (kg)");
+                                    if (value.get("Goal Weight (lbs)") != null) {
+                                        double w = (Double) value.get("Goal Weight (lbs)");
                                         double a = (double) Math.round(w);
-                                        txtGoal.setText("Goal Weight: " + a + " kg");
+                                        txtGoal.setText("Goal Weight: " + a + " lbs");
                                     } else {
-                                        txtGoal.setText("DIDn't work");
+                                        txtGoal.setText("Didn't work");
                                     }
                                 }
                             }

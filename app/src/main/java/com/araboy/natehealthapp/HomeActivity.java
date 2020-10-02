@@ -13,6 +13,8 @@ import androidx.fragment.app.FragmentTransaction;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -129,7 +131,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
             boolean isNew = extras.getBoolean("addFood", false);
-            Toast.makeText(this, "Extra != null && " + isNew, Toast.LENGTH_SHORT).show();
+       //     Toast.makeText(this, "Extra != null && " + isNew, Toast.LENGTH_SHORT).show();
             if (isNew) {
                 // Do something
                  switch (getIntent().getStringExtra("EXTRA")) {
@@ -207,6 +209,14 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
                 break;
         }
         drawer.closeDrawer(GravityCompat.START);
+        return true;
+    }
+
+    //MAYBE TAKE OUT
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.main_menu, menu);
         return true;
     }
 }
