@@ -22,6 +22,7 @@ import com.google.firebase.firestore.SetOptions;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 
 public class Survey5WeeklyGoalActivity extends AppCompatActivity {
     RadioGroup rgGoal;
@@ -37,7 +38,7 @@ public class Survey5WeeklyGoalActivity extends AppCompatActivity {
     FirebaseFirestore fStore;
     FirebaseUser user;
     String userId;
-    DocumentReference documentReference;
+    DocumentReference documentReference, goalsDocRef;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,6 +59,11 @@ public class Survey5WeeklyGoalActivity extends AppCompatActivity {
 
 
             documentReference = fStore.collection(userId).document("Survey");
+
+
+            goalsDocRef = fStore.collection(userId).document("Goals");
+
+
             if(documentReference != null) {
                 documentReference.addSnapshotListener(new EventListener<DocumentSnapshot>() {
                     @Override
@@ -102,25 +108,38 @@ public class Survey5WeeklyGoalActivity extends AppCompatActivity {
                 @Override
                 public void onClick(View view) {
                     Map<String, Object> weeklyGoal = new HashMap<>();
+                    Map<String, Object> weeklyGoalGoals = new HashMap<>();
+                    String goal ="";
                     if (rgGoal.getCheckedRadioButtonId() != -1) {
                         if (rb0.isChecked()) {
                             weeklyGoal.put("Weekly Goal", 0);
+                            goal = "Maintain Weight";
 
                         } else if (rb5.isChecked()) {
                             if (iden.equals("gain")) {
                                 weeklyGoal.put("Weekly Goal", 0.5);
+                                goal = "Gain 0.5 lbs a week";
                             } else {
                                 weeklyGoal.put("Weekly Goal", -0.5);
+                                goal = "Lose 0.5 lbs a week";
                             }
                         } else {
                             if (iden.equals("gain")) {
                                 weeklyGoal.put("Weekly Goal", 1);
+                                goal = "Gain 1 lb a week";
                             } else if (iden.equals("lose")) {
                                 weeklyGoal.put("Weekly Goal", -1);
+                                goal = "Lose 1 lb a week";
                             } else {
                                 weeklyGoal.put("Weekly Goal", 0.5);
+                                goal = "Gain 0.5 lbs a week";
                             }
                         }
+                        weeklyGoalGoals.put("Title", goal);
+                        weeklyGoalGoals.put("Desc", goal);
+                        DocumentReference docGoal = goalsDocRef.collection("Weekly Goals").document(goal);
+
+                        docGoal.set(weeklyGoalGoals, SetOptions.merge());
                         weeklyGoal.put("isComplete", true);
                         documentReference.set(weeklyGoal, SetOptions.merge());
                     } else {
