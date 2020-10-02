@@ -14,6 +14,7 @@ import android.widget.CalendarView;
 import android.widget.TextView;
 
 import java.util.Calendar;
+import java.util.Date;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -25,7 +26,7 @@ public class CalendarFragment extends Fragment {
     Button btnViewMeals;
     CalendarView calendarView;
     TextView txtDate;
-    String dateSelected;
+    String dateSelected = getDate(new Date());
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -118,5 +119,54 @@ public class CalendarFragment extends Fragment {
         } else {
             return i+1+"";
         }
+    }
+
+    public static String getDate(Date date) {
+        String month, day, year, dateWTime;
+        dateWTime = date.toString();
+        switch(dateWTime.substring(4, 7)) {
+            case "Jan":
+                month = "1";
+                break;
+            case "Feb":
+                month = "2";
+                break;
+            case "Mar":
+                month = "3";
+                break;
+            case "Apr":
+                month = "4";
+                break;
+            case "May":
+                month = "5";
+                break;
+            case "Jun":
+                month = "6";
+                break;
+            case "Jul":
+                month = "7";
+                break;
+            case "Aug":
+                month = "8";
+                break;
+            case "Sep":
+                month = "9";
+                break;
+            case "Oct":
+                month = "10";
+                break;
+            case "Nov":
+                month = "11";
+                break;
+            case "Dec":
+                month = "12";
+                break;
+            default:
+                month = "else";
+                break;
+        }
+        day = dateWTime.substring(8, 10);
+        year = dateWTime.substring(dateWTime.length()-4, dateWTime.length());
+        return month+"-"+day+"-"+year;
     }
 }

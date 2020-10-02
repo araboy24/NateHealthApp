@@ -15,7 +15,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:fontFamily="@font/montserrat"
-        android:text="Mark Your Dates"
+        android:text="Select a Day"
         android:textAlignment="center"
         android:textColor="#000"
         android:textSize="23sp"
