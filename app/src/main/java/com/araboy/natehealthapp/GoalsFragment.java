@@ -1,5 +1,6 @@
 package com.araboy.natehealthapp;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,7 +10,9 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
@@ -26,6 +29,7 @@ public class GoalsFragment extends Fragment {
     FirebaseUser user;
     FirebaseFirestore fStore;
     String userId, dateS;
+    FloatingActionButton btnAddGoal;
 
 
     TextView txtGoal;
@@ -60,10 +64,21 @@ public class GoalsFragment extends Fragment {
             } catch(Exception e){}
         }
 
+        btnAddGoal.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                AddGoalFragment addGoalFragment = new AddGoalFragment();
+                FragmentManager manager = getFragmentManager();
+                manager.beginTransaction().replace(R.id.fragment_container, addGoalFragment, addGoalFragment.getTag()).commit();
+            }
+        });
+
         return view;
     }
 
     public void instantiate(View view){
+        btnAddGoal = view.findViewById(R.id.btnAddGoal);
+
         txtGoal = view.findViewById(R.id.txtWeightGoal);
         fStore = FirebaseFirestore.getInstance();
         fAuth= FirebaseAuth.getInstance();
