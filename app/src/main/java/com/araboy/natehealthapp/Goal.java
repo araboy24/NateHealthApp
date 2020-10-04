@@ -9,6 +9,12 @@ public class Goal {
         this.desc = desc;
     }
 
+    public Goal(String title, String desc){
+        type = "";
+        this.title = title;
+        this.desc = desc;
+    }
+
     public Goal() {
     }
 

@@ -1,5 +1,6 @@
 package com.araboy.natehealthapp;
 
+import android.graphics.Color;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -12,6 +13,7 @@ import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
@@ -82,6 +84,7 @@ public class AddGoalFragment extends Fragment {
         spinnerGoalType.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                ((TextView) adapterView.getChildAt(0)).setTextColor(Color.BLACK);
                 goalType = spinnerGoalType.getSelectedItem().toString();
             }
             @Override
@@ -111,7 +114,7 @@ public class AddGoalFragment extends Fragment {
                     return;
                 }
 
-                if(emptyField == false) {
+                if(!emptyField) {
                     Map<String, Object> goal = new HashMap<>();
                     goal.put("Title", goalTitle);
                     goal.put("Desc", goalDesc);

@@ -11,77 +11,17 @@
         android:layout_height="match_parent"
         android:background="@mipmap/dark_green_wallpaper">
 
-        <RadioGroup
-            android:id="@+id/rgGoalType"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            app:layout_constraintBottom_toTopOf="@+id/recGoals"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/txtTitle">
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_weight="1">
-
-                <RadioButton
-                    android:id="@+id/rbAll"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="All" />
-
-                <RadioButton
-                    android:id="@+id/rbWeight"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Weight"
-                    />
-
-                <RadioButton
-                    android:id="@+id/rbNutritional"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Nutritional" />
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_weight="1">
-
-                <RadioButton
-                    android:id="@+id/rbDaily"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Daily" />
-
-                <RadioButton
-                    android:id="@+id/rbMonthly"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Monthly" />
-
-                <RadioButton
-                    android:id="@+id/rbWeekly"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Weekly" />
-            </LinearLayout>
-
-        </RadioGroup>
-
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recGoals"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/txtTitle"
-            tools:layout_editor_absoluteX="1dp" />
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="8dp"
+            android:background="@drawable/bg_goals"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/txtWeightGoal" />
 
         <TextView
             android:id="@+id/txtWeightGoal"
@@ -128,6 +68,16 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
+
+        <Spinner
+            android:id="@+id/spinnerGoalTypeGoals"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="32dp"
+            app:layout_constraintStart_toEndOf="@+id/txtWeightGoal"
+            app:layout_constraintTop_toTopOf="@+id/txtWeightGoal"
+            android:entries="@array/goalTypesAll"
+            />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

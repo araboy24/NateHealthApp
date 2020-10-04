@@ -68,7 +68,8 @@
         android:inputType="textPersonName"
         app:layout_constraintBottom_toBottomOf="@+id/textView6"
         app:layout_constraintStart_toEndOf="@+id/textView6"
-        app:layout_constraintTop_toTopOf="@+id/textView6" />
+        app:layout_constraintTop_toTopOf="@+id/textView6"
+        android:backgroundTint="@color/black"/>
 
     <TextView
         android:id="@+id/txtGoalDesc"
@@ -91,20 +92,21 @@
         android:inputType="textMultiLine"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/txtGoalDesc" />
+        app:layout_constraintTop_toBottomOf="@+id/txtGoalDesc"
+        android:backgroundTint="@color/black"/>
 
     <Button
         android:id="@+id/btnSubmitGoal"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="24dp"
+        android:layout_marginTop="50dp"
         android:layout_marginEnd="24dp"
-        android:layout_marginBottom="16dp"
         android:background="@color/darkerGreen"
         android:text="Add Goal"
         android:textColor="#FFFFFF"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/edtGoalDesc" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

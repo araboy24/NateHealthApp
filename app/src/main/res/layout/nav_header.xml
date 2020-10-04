@@ -24,13 +24,15 @@
         android:paddingTop="8dp"
         android:text="Users Name"
         android:id="@+id/txtNameNav"
-        android:textAppearance="@style/TextAppearance.AppCompat.Body1"/>
+        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+        android:textColor="@color/black"/>
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="User@email.com"
-        android:id="@+id/txtEmailNav"/>
+        android:id="@+id/txtEmailNav"
+        android:textColor="@color/black"/>
 
 
 
