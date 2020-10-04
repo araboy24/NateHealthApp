@@ -15,4 +15,14 @@
         <item>Monthly Goals</item>
     </string-array>
 
+    <string-array name="goalTypesAll">
+        <item>All Goals</item>
+        <item>Nutritional Goals</item>
+        <item>Weight Goals</item>
+        <item>Daily Goals</item>
+        <item>Weekly Goals</item>
+        <item>Monthly Goals</item>
+    </string-array>
+
+
 </resources>
