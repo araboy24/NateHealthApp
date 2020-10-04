@@ -62,7 +62,7 @@ public class DailyMealsActivity extends AppCompatActivity {
                         List<DocumentSnapshot> foods = task.getResult().getDocuments();
                         count = foods.size();
                         for (DocumentSnapshot ds : foods) {
-                            meals.add(new Meal(ds.getString("Name"), (double) ds.get("Calories"),
+                            meals.add(new Meal(ds.getString("Title"), (double) ds.get("Calories"),
                                     (double) ds.get("Carbs"), (double) ds.get("Protein"), (double) ds.get("Fat")));
                         }
 
