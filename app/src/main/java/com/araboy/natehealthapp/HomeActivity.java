@@ -42,6 +42,8 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
     Button btnLogout;
     boolean loggedOut = false;
 
+    Toolbar tb;
+
     private DrawerLayout drawer;
 
     @Override
@@ -58,6 +60,9 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         txtEmail = (TextView) headerView.findViewById(R.id.txtEmailNav);
         txtName = (TextView) headerView.findViewById(R.id.txtNameNav);
         profilePic = headerView.findViewById(R.id.imgProfilePic);
+        tb = findViewById(R.id.toolbar);
+        setSupportActionBar(tb);
+
 
         fAuth = FirebaseAuth.getInstance();
         fStore = FirebaseFirestore.getInstance();
@@ -86,6 +91,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         }
 
         Toolbar toolbar = findViewById(R.id.toolbar);
+        toolbar.setTitleTextColor(getResources().getColor(R.color.black));
         setSupportActionBar(toolbar);
 
         drawer = findViewById(R.id.drawer_layout);
@@ -94,6 +100,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
 
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawer, toolbar,
                 R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        toggle.getDrawerArrowDrawable().setColor(getResources().getColor(R.color.black));
         drawer.addDrawerListener(toggle);
         toggle.syncState();
 
@@ -108,6 +115,17 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
                     new HomeFragment()).commit();
             navigationView.setCheckedItem(R.id.nav_home);
         }
+
+        //Recieving message from dailyMeals Frag
+        Intent intent = getIntent();
+        String message = intent.getStringExtra("Date");
+        Bundle bundle=new Bundle();
+        bundle.putString("Date", message);
+
+        //set Fragmentclass Arguments
+        DailyMealsFragment dailyMealsFragment =new DailyMealsFragment();
+        dailyMealsFragment.setArguments(bundle);
+
 
 /*
         btnLogout.setOnClickListener(new View.OnClickListener() {
@@ -219,4 +237,20 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         inflater.inflate(R.menu.main_menu, menu);
         return true;
     }
+
+    //Handling Action Bar button click
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int i = item.getItemId();
+
+        if(i == R.id.home){
+            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
+                    new HomeFragment()).commit();
+        } else if(i == R.id.nateChat){
+            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
+                    new NateChatFragment()).commit();
+        }
+        return true;
+    }
+
 }
