@@ -23,12 +23,16 @@ import com.google.firebase.firestore.FirebaseFirestoreException;
 
 public class SplashActivity extends AppCompatActivity {
     //How long splash screen stays
-    private static int SPLASH_TIME_OUT = 3000;
+    private static int SPLASH_TIME_OUT = 4000;
 
     ImageView imgLogo, imgName;
 
     //Animations
     Animation topAnimation, bottomAnimation, middleAnimation;
+
+    //New anim
+    Animation n, a, t, e;
+    ImageView nI, aI, tI, eI;
 
 
     //Background Check
@@ -50,12 +54,33 @@ public class SplashActivity extends AppCompatActivity {
         imgLogo = findViewById(R.id.imgLogo);
         imgName = findViewById(R.id.imgText);
 
+
+
         topAnimation = AnimationUtils.loadAnimation(this,R.anim.top_animation);
         bottomAnimation = AnimationUtils.loadAnimation(this,R.anim.bottom_animation);
         middleAnimation = AnimationUtils.loadAnimation(this,R.anim.middle_animation);
 
+        //New anim
+        n = AnimationUtils.loadAnimation(this, R.anim.n_anim);
+        a = AnimationUtils.loadAnimation(this, R.anim.a_anim);
+        t = AnimationUtils.loadAnimation(this, R.anim.t_anim);
+        e = AnimationUtils.loadAnimation(this, R.anim.e_anim);
+        nI = findViewById(R.id.imgNutrition);
+        aI = findViewById(R.id.imgAssessment);
+        tI = findViewById(R.id.imgTraining);
+        eI = findViewById(R.id.imgExpert);
+        nI.setAnimation(n);
+        aI.setAnimation(a);
+        tI.setAnimation(t);
+        eI.setAnimation(e);
+
+
+
+
         imgName.setAnimation(bottomAnimation);
         imgLogo.setAnimation(topAnimation);
+
+
 
         //Background Check: Logged in or not
         fAuth = FirebaseAuth.getInstance();
