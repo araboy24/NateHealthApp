@@ -9,6 +9,7 @@ import android.widget.CompoundButton;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Switch;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -120,6 +121,7 @@ public class SettingsFragment extends Fragment {
                 settings.put("Units", units);
                 settings.put("Notifications", isNotifOn);
                 docSettings.set(settings, SetOptions.merge());
+                Toast.makeText(getActivity().getApplicationContext(), "Settings Saved", Toast.LENGTH_SHORT).show();
             }
         });
 
