@@ -5,6 +5,7 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -81,7 +82,7 @@ public class CalendarFragment extends Fragment {
         calendarView.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
             @Override
             public void onSelectedDayChange(@NonNull CalendarView calendarView, int i, int i1, int i2) {
-                String date = (i1 + 1) + "/" + i2 + "/" + i;
+                String date = (i1 + 1) + "-" + i2 + "-" + i;
                 String month, day;
                 month = formatMonth(i1);
                 day = formatNum(i2);
@@ -93,10 +94,15 @@ public class CalendarFragment extends Fragment {
         btnViewMeals.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(getActivity().getBaseContext(),
+             /*   Intent intent = new Intent(getActivity().getBaseContext(),
                         DailyMealsActivity.class);
                 intent.putExtra("Date", dateSelected);
                 getActivity().startActivity(intent);
+              */
+                DailyMealsFragment dailyMealsFragment = new DailyMealsFragment();
+                FragmentManager manager = getFragmentManager();
+                manager.beginTransaction().replace(R.id.fragment_container, dailyMealsFragment, dailyMealsFragment.getTag()).commit();
+
             }
         });
 
