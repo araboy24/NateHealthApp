@@ -78,7 +78,7 @@ public class RegisterActivity2 extends AppCompatActivity {
                 }
 
                 if(password.length() < 8){
-                    mPassword.setError("Password must have 6 or more characters");
+                    mPassword.setError("Password must have 8 or more characters");
                     return;
                 }
                 //TODO Add requirements for letters in password
