@@ -57,6 +57,7 @@
         android:ems="10"
         android:hint="X'YY"
         android:inputType="textPersonName"
+        android:text="5'10"
         app:layout_constraintEnd_toEndOf="@+id/txtHeight"
         app:layout_constraintStart_toStartOf="@+id/txtHeight"
         app:layout_constraintTop_toBottomOf="@+id/txtHeight" />
@@ -69,6 +70,7 @@
         android:ems="10"
         android:hint="lbs"
         android:inputType="textPersonName"
+        android:text="180"
         app:layout_constraintEnd_toEndOf="@+id/txtWeight"
         app:layout_constraintStart_toStartOf="@+id/txtWeight"
         app:layout_constraintTop_toBottomOf="@+id/txtWeight" />
@@ -81,6 +83,7 @@
         android:ems="10"
         android:hint="lbs"
         android:inputType="textPersonName"
+        android:text="165"
         app:layout_constraintEnd_toEndOf="@+id/txtGoalWeight"
         app:layout_constraintStart_toStartOf="@+id/txtGoalWeight"
         app:layout_constraintTop_toBottomOf="@+id/txtGoalWeight" />
