@@ -41,6 +41,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
     ImageView profilePic;
     Button btnLogout;
     boolean loggedOut = false;
+    NavigationView navigationView;
 
     Toolbar tb;
 
@@ -55,7 +56,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
             finish();
         }
 
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        navigationView = (NavigationView) findViewById(R.id.nav_view);
         View headerView = navigationView.getHeaderView(0);
         txtEmail = (TextView) headerView.findViewById(R.id.txtEmailNav);
         txtName = (TextView) headerView.findViewById(R.id.txtNameNav);
@@ -246,6 +247,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         if(i == R.id.home){
             getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
                     new HomeFragment()).commit();
+            navigationView.setCheckedItem(R.id.nav_home);
         } else if(i == R.id.nateChat){
             getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
                     new NateChatFragment()).commit();
