@@ -5,9 +5,11 @@ import android.app.ProgressDialog;
 import android.content.ContentResolver;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,6 +26,7 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
+import com.bumptech.glide.Glide;
 import com.google.android.gms.tasks.Continuation;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -31,6 +34,7 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.UserProfileChangeRequest;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
@@ -41,6 +45,7 @@ import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.StorageTask;
 import com.google.firebase.storage.UploadTask;
 
+import java.io.ByteArrayOutputStream;
 import java.util.Date;
 
 public class ProfileFragment extends Fragment {
@@ -49,6 +54,10 @@ public class ProfileFragment extends Fragment {
     Button btnCalendar;
     Button btnAllMeals;
     TextView txtGoal, txtCurrent, txtName;
+
+    //Profile pic
+    private static final String TAG = "TAG";
+    int TAKE_IMAGE_CODE = 10001;
 
     FirebaseFirestore fStore;
     FirebaseAuth fAuth;
@@ -59,6 +68,8 @@ public class ProfileFragment extends Fragment {
     private static final int PICK_IMAGE = 1;
     private Uri imageUri;
     private StorageTask uploadTask;
+
+    String units = "Imperial";
 
 
     @Nullable
@@ -76,7 +87,7 @@ public class ProfileFragment extends Fragment {
                     @Override
                     public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
                         assert value != null;
-                        if(value != null) {
+                        if (value != null) {
                             if (value.getString("Full Name") != null) {
                                 txtName.setText("Name: " + value.getString("Full Name"));
                             }
@@ -84,6 +95,18 @@ public class ProfileFragment extends Fragment {
                     }
                 });
 
+                //Checking Units
+                DocumentReference dUnits = fStore.collection(userId).document("Settings");
+                if (dUnits != null) {
+                    dUnits.addSnapshotListener(new EventListener<DocumentSnapshot>() {
+                        @Override
+                        public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
+                            if(value != null){
+                                units = value.getString("Units");
+                            }
+                        }
+                    });
+                }
 
                 DocumentReference dStats = fStore.collection(userId).document("Survey");
                 if (dStats != null) {
@@ -92,27 +115,52 @@ public class ProfileFragment extends Fragment {
                             @Override
                             public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
                                 assert value != null;
-                                if(value != null) {
-                                    if (value.get("Weight (lbs)") != null) {
-                                        double w = (double) value.get("Weight (lbs)");
-                                        double a = Math.round(w);
+                                if (value != null) {
+                                    switch (units){
+                                        case "Imperial":
+                                            if (value.get("Weight (lbs)") != null) {
+                                                double w = (double) value.get("Weight (lbs)");
+                                                double a = Math.round(w);
 
-                                        txtCurrent.setText("Current Weight: " + a + " lbs");
-                                    } else {
-                                        txtCurrent.setText("DIDn't work");
+                                                txtCurrent.setText("Current Weight: " + a + " lbs");
+                                            } else {
+                                                txtCurrent.setText("DIDn't work");
+                                            }
+                                            if (value.get("Goal Weight (lbs)") != null) {
+                                                double w = (Double) value.get("Goal Weight (lbs)");
+                                                double a = (double) Math.round(w);
+                                                txtGoal.setText("Goal Weight: " + a + " lbs");
+                                            } else {
+                                                txtGoal.setText("Didn't work");
+                                            }
+                                            break;
+                                        case "Metric":
+                                            if (value.get("Weight (kg)") != null) {
+                                                double w = (double) value.get("Weight (kg)");
+                                                double a = Math.round(w);
+
+                                                txtCurrent.setText("Current Weight: " + a + " kg");
+                                            } else {
+                                                txtCurrent.setText("DIDn't work");
+                                            }
+                                            if (value.get("Goal Weight (lbs)") != null) {
+                                                double w = (Double) value.get("Goal Weight (kg)");
+                                                double a = (double) Math.round(w);
+                                                txtGoal.setText("Goal Weight: " + a + " kg");
+                                            } else {
+                                                txtGoal.setText("Didn't work");
+                                            }
+                                            break;
                                     }
-                                    if (value.get("Goal Weight (lbs)") != null) {
-                                        double w = (Double) value.get("Goal Weight (lbs)");
-                                        double a = (double) Math.round(w);
-                                        txtGoal.setText("Goal Weight: " + a + " lbs");
-                                    } else {
-                                        txtGoal.setText("Didn't work");
-                                    }
+
                                 }
                             }
                         });
-                    } catch(Exception e){}
+                    } catch (Exception e) {
+                    }
                 }
+
+
             }
 
         }
@@ -184,6 +232,13 @@ public class ProfileFragment extends Fragment {
             }
         });
 
+        imgProfilePic.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                handleImageClickProfile(view);
+            }
+        });
+
 
         return view;
     }
@@ -214,6 +269,13 @@ public class ProfileFragment extends Fragment {
             userId = user.getUid();
         }
         dateS = getDate(new Date());
+        if(user != null){
+            if(user.getPhotoUrl() != null){
+                Glide.with(this)
+                        .load(user.getPhotoUrl())
+                        .into(imgProfilePic);
+            }
+        }
 
     }
 
@@ -267,6 +329,86 @@ public class ProfileFragment extends Fragment {
         year = dateWTime.substring(dateWTime.length()-4, dateWTime.length());
 
         return month+"-"+day+"-"+year;
+
+    }
+
+    //Profile pic load in:
+
+    public void handleImageClickProfile(View view){
+        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        if(intent.resolveActivity(getActivity().getPackageManager()) != null){
+            startActivityForResult(intent, TAKE_IMAGE_CODE);
+        }
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(requestCode == TAKE_IMAGE_CODE){
+            switch (resultCode){
+                case -1: // -1 was RESULT_OK but gave error
+                    Bitmap bitmap = (Bitmap)data.getExtras().get("data");
+                    imgProfilePic.setImageBitmap(bitmap);
+                    handleUpload(bitmap);
+            }
+        }
+    }
+
+    private void handleUpload(Bitmap bitmap) {
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+
+        final StorageReference reference = FirebaseStorage.getInstance().getReference()
+                .child("profileImages")
+                .child(userId + ".jpeg");
+
+        reference.putBytes(baos.toByteArray())
+                .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                    @Override
+                    public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                        getDownloadUrl(reference);
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Log.e(TAG, "onFailure: " + e.getCause());
+            }
+        });
+
+
+    }
+
+    private void getDownloadUrl(StorageReference reference){
+        reference.getDownloadUrl()
+                .addOnSuccessListener(new OnSuccessListener<Uri>() {
+                    @Override
+                    public void onSuccess(Uri uri) {
+                        Log.d(TAG, "onSuccess: " + uri);
+                        setUserProfileUrl(uri);
+                    }
+                });
+    }
+
+    private void setUserProfileUrl(Uri uri){
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        UserProfileChangeRequest request = new UserProfileChangeRequest.Builder()
+                .setPhotoUri(uri)
+                .build();
+        user.updateProfile(request)
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        if(getActivity() != null)
+                        Toast.makeText(getActivity().getApplicationContext(), "Updated Successfully", Toast.LENGTH_SHORT).show();
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        if(getActivity() != null)
+                        Toast.makeText(getActivity().getApplicationContext(), "Profile Image Failed", Toast.LENGTH_SHORT).show();
+                    }
+                });
 
     }
 }

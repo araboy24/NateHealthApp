@@ -29,7 +29,7 @@ import java.io.ByteArrayOutputStream;
 public class ProfilePicActivity extends AppCompatActivity {
     private static final String TAG = "TAG";
     int TAKE_IMAGE_CODE = 10001;
-    ImageView img;
+    ImageView imgProfilePic;
     FirebaseAuth fAuth;
     String uid;
     FirebaseUser user;
@@ -37,7 +37,7 @@ public class ProfilePicActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile_pic);
-        img = findViewById(R.id.imgProfilePic);
+        imgProfilePic = findViewById(R.id.imgProfilePic);
         fAuth = FirebaseAuth.getInstance();
         uid= fAuth.getCurrentUser().getUid();
         user = fAuth.getCurrentUser();
@@ -45,7 +45,7 @@ public class ProfilePicActivity extends AppCompatActivity {
             if(user.getPhotoUrl() != null){
                 Glide.with(this)
                         .load(user.getPhotoUrl())
-                        .into(img);
+                        .into(imgProfilePic);
             }
         }
     }
@@ -64,7 +64,7 @@ public class ProfilePicActivity extends AppCompatActivity {
             switch (resultCode){
                 case RESULT_OK:
                     Bitmap bitmap = (Bitmap)data.getExtras().get("data");
-                    img.setImageBitmap(bitmap);
+                    imgProfilePic.setImageBitmap(bitmap);
                     handleUpload(bitmap);
             }
         }
@@ -114,7 +114,7 @@ public class ProfilePicActivity extends AppCompatActivity {
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void aVoid) {
-                        Toast.makeText(getApplicationContext(), "Updted Successfully", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getApplicationContext(), "Updated Successfully", Toast.LENGTH_SHORT).show();
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {
