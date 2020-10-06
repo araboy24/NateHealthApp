@@ -105,6 +105,9 @@ public class DailyMealsFragment extends Fragment {
 
         if(user != null){
 
+            if(dateFromCal == null){
+                dateFromCal = getDate(new Date());
+            }
             fStore.collection(userId).document("Daily Food").collection(dateFromCal)
                     .get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                 @Override
