@@ -46,12 +46,18 @@ public class HomeFragment extends Fragment {
     boolean surveyComplete;
     boolean loggedOut = false;
 
+    //TODO : DELETE
+    Button btnPic;
+
     DocumentReference documentReference;
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_home, container, false);
         instantiate(view);
+        //TODO : DELETE
+        btnPic = view.findViewById(R.id.button2);
+
         if (user != null && userId != null) {
             fStore.collection(userId).document("Daily Food").collection(dateS)
                     .get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
@@ -114,7 +120,15 @@ public class HomeFragment extends Fragment {
                     manager.beginTransaction().replace(R.id.fragment_container, todaysInfoFragment, todaysInfoFragment.getTag()).commit();
                 }
             });
+
+            btnPic.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    startActivity(new Intent(getActivity(), ProfilePicActivity.class));
+                }
+            });
         }
+
         return view; //Last line
     }
 

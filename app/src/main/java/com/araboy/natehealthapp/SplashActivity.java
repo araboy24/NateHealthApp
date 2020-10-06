@@ -23,7 +23,9 @@ import com.google.firebase.firestore.FirebaseFirestoreException;
 
 public class SplashActivity extends AppCompatActivity {
     //How long splash screen stays
-    private static int SPLASH_TIME_OUT = 4000;
+
+    //TODO: change back to 4000
+    private static int SPLASH_TIME_OUT = 1000;
 
     ImageView imgLogo, imgName;
 
