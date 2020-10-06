@@ -2,6 +2,7 @@ package com.araboy.natehealthapp;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,10 +14,15 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.SetOptions;
 
 import java.text.ParseException;
@@ -38,6 +44,8 @@ public class AddFoodFragment extends Fragment {
 
     Button btnDone, btnClear;
     EditText edtCalories, edtProtein, edtFat, edtCarbs, edtName;
+
+    boolean isFood;
 
 
     @Nullable
@@ -66,9 +74,27 @@ public class AddFoodFragment extends Fragment {
                     food.put("Carbs", carbs);
                     food.put("Protein", protein);
                     food.put("Fat", fat);
+
                     if (user != null) {
                         DocumentReference docFood = fStore.collection(userId).document("Daily Food");
                         DocumentReference docDay = docFood.collection(sDate).document(name);
+                        docDay.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                            @Override
+                            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                                if (task.isSuccessful()) {
+                                    DocumentSnapshot document = task.getResult();
+                                    if (document.exists()) {
+                                        isFood = true;
+                                    } else {
+                                        isFood = false;
+                                    }
+                                }
+                            }
+                        });
+
+                        if(isFood){
+                            docDay = docFood.collection(sDate).document(name+"!");
+                        }
                         docDay.set(food, SetOptions.merge());
                     }
                 }
