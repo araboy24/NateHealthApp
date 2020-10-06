@@ -9,6 +9,7 @@ import android.widget.CompoundButton;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Switch;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -40,6 +41,7 @@ public class SettingsFragment extends Fragment {
     FirebaseUser user;
     String userId, dateS, units;
     boolean isNotifOn;
+    TextView txtUserId;
 
     @Nullable
     @Override
@@ -139,10 +141,15 @@ public class SettingsFragment extends Fragment {
         fStore = FirebaseFirestore.getInstance();
         fAuth= FirebaseAuth.getInstance();
         user = fAuth.getCurrentUser();
+
+        //TODO take out before launch
+        txtUserId = view.findViewById(R.id.txtUserId);
         if(user!= null) {
             userId = user.getUid();
+            txtUserId.setText("User ID: " + userId);
         }
         dateS = getDate(new Date());
+
 
     }
 
