@@ -68,12 +68,7 @@ public class AddFoodFragment extends Fragment {
                     emptyField = true;
                 }
                 if(emptyField == false) {
-                    Map<String, Object> food = new HashMap<>();
-                    food.put("Name", name);
-                    food.put("Calories", calories);
-                    food.put("Carbs", carbs);
-                    food.put("Protein", protein);
-                    food.put("Fat", fat);
+
 
                     if (user != null) {
                         DocumentReference docFood = fStore.collection(userId).document("Daily Food");
@@ -83,10 +78,21 @@ public class AddFoodFragment extends Fragment {
                             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                                 if (task.isSuccessful()) {
                                     DocumentSnapshot document = task.getResult();
+                                    Map<String, Object> food = new HashMap<>();
+                                    food.put("Name", name);
+                                    food.put("Calories", calories);
+                                    food.put("Carbs", carbs);
+                                    food.put("Protein", protein);
+                                    food.put("Fat", fat);
+                                    DocumentReference docFood2 = fStore.collection(userId).document("Daily Food");
+                                    DocumentReference docDay2 = docFood2.collection(sDate).document(name+"!");
+                                    DocumentReference docDay3 = docFood2.collection(sDate).document(name);
                                     if (document.exists()) {
                                         isFood = true;
+                                        docDay2.set(food, SetOptions.merge());
                                     } else {
                                         isFood = false;
+                                        docDay3.set(food, SetOptions.merge());
                                     }
                                 }
                             }
@@ -95,7 +101,7 @@ public class AddFoodFragment extends Fragment {
                         if(isFood){
                             docDay = docFood.collection(sDate).document(name+"!");
                         }
-                        docDay.set(food, SetOptions.merge());
+                       // docDay.set(food, SetOptions.merge());
                     }
                 }
                 Toast.makeText(getActivity(), "Food Stored Successfully!", Toast.LENGTH_SHORT).show();
